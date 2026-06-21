@@ -12,7 +12,7 @@
 
 **Video demostrativo:** https://youtu.be/XTnlDhsIsxg?si=LeEmKwnAk4cS_gmM  
 
-**Documentación técnica profesional:** https://github.com/iClexi/VPN-IKEv1-Policy-Based/blob/main/docs/Documentacion%20Tecnica%20Profesional.pdf
+**Documentación técnica profesional:**/docs/Documentacion Tecnica Profesional.pdf
 
 ---
 
