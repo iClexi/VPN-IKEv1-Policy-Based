@@ -16,7 +16,7 @@
 https://youtu.be/XTnlDhsIsxg?si=LeEmKwnAk4cS_gmM  
 
 **Documentación técnica profesional:**  
-`docs/Documentacion Tecnica Profesional.pdf`
+[Ver documentación técnica profesional](docs/Documentacion%20Tecnica%20Profesional.pdf)
 
 ---
 
@@ -476,11 +476,9 @@ Esto confirma que la VPN no solo está configurada, sino que está cifrando y de
 
 ## Documentación técnica profesional
 
-La documentación completa está ubicada en:
+La documentación completa está disponible en el siguiente enlace interno del repositorio:
 
-```text
-docs/Documentacion Tecnica Profesional.pdf
-```
+[Ver documentación técnica profesional](docs/Documentacion%20Tecnica%20Profesional.pdf)
 
 ---
 
