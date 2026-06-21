@@ -222,6 +222,259 @@ VPN-IKEv1-Policy-Based/
 
 ---
 
+## Tutorial de configuración
+
+Esta sección explica cómo se configuró el laboratorio y qué función cumple cada bloque de comandos.
+
+### 1. Configuración básica de R1 y R2
+
+En ambos routers se configuró el nombre del dispositivo y se desactivó la búsqueda DNS automática:
+
+```cisco
+hostname R1-IKEv1-Policy-Based
+no ip domain-lookup
+```
+
+El comando `hostname` identifica el equipo dentro del laboratorio.  
+El comando `no ip domain-lookup` evita que el router intente resolver como dominio cualquier comando escrito incorrectamente.
+
+---
+
+### 2. Configuración de interfaces WAN y LAN
+
+En R1 se configuró la interfaz WAN hacia el ISP:
+
+```cisco
+interface GigabitEthernet0/0
+ description WAN-HACIA-ISP-G0/0
+ ip address 20.25.8.46 255.255.255.252
+ no shutdown
+```
+
+También se configuró la interfaz LAN como gateway de PC-A:
+
+```cisco
+interface GigabitEthernet0/1
+ description LAN-A-HACIA-SW1-G0/0
+ ip address 192.168.45.1 255.255.255.0
+ no shutdown
+```
+
+En R2 se realizó el mismo proceso, pero con el direccionamiento del lado derecho:
+
+```cisco
+interface GigabitEthernet0/0
+ description WAN-HACIA-ISP-G0/1
+ ip address 20.25.8.50 255.255.255.252
+ no shutdown
+
+interface GigabitEthernet0/1
+ description LAN-B-HACIA-SW2-G0/0
+ ip address 192.168.84.1 255.255.255.0
+ no shutdown
+```
+
+El comando `no shutdown` activa la interfaz. Sin ese comando, la interfaz puede quedar apagada administrativamente.
+
+---
+
+### 3. Configuración de rutas por defecto
+
+En R1 se configuró una ruta por defecto hacia el ISP:
+
+```cisco
+ip route 0.0.0.0 0.0.0.0 20.25.8.45
+```
+
+En R2 se configuró una ruta por defecto hacia el ISP:
+
+```cisco
+ip route 0.0.0.0 0.0.0.0 20.25.8.49
+```
+
+Estas rutas permiten que R1 y R2 puedan comunicarse a través del router ISP. Sin estas rutas, los peers no podrían llegar a la IP WAN remota.
+
+---
+
+### 4. Configuración de IKEv1
+
+En ambos routers se configuró la política IKEv1:
+
+```cisco
+crypto isakmp policy 10
+ encr aes 256
+ hash sha
+ authentication pre-share
+ group 14
+ lifetime 86400
+```
+
+Este bloque define los parámetros de negociación inicial de la VPN:
+
+- `encr aes 256`: usa AES de 256 bits para cifrado.
+- `hash sha`: usa SHA para integridad.
+- `authentication pre-share`: usa clave precompartida.
+- `group 14`: usa Diffie-Hellman grupo 14.
+- `lifetime 86400`: define el tiempo de vida de la asociación de seguridad.
+
+---
+
+### 5. Configuración de clave precompartida
+
+En R1 se configuró la clave precompartida apuntando a la WAN de R2:
+
+```cisco
+crypto isakmp key ITLA20250845 address 20.25.8.50
+```
+
+En R2 se configuró la misma clave apuntando a la WAN de R1:
+
+```cisco
+crypto isakmp key ITLA20250845 address 20.25.8.46
+```
+
+Ambos routers deben usar la misma clave para autenticarse correctamente.
+
+---
+
+### 6. Configuración del transform-set IPSec
+
+En ambos routers se configuró el transform-set:
+
+```cisco
+crypto ipsec transform-set TS-IKEV1 esp-aes 256 esp-sha-hmac
+ mode tunnel
+```
+
+Este bloque define cómo IPSec va a proteger el tráfico real:
+
+- `esp-aes 256`: cifra el tráfico usando AES 256.
+- `esp-sha-hmac`: valida la integridad con SHA-HMAC.
+- `mode tunnel`: encapsula el paquete IP completo, ideal para VPN Site-to-Site.
+
+---
+
+### 7. Configuración de ACL de tráfico interesante
+
+En R1 se configuró la ACL 110 para proteger tráfico desde LAN A hacia LAN B:
+
+```cisco
+access-list 110 permit ip 192.168.45.0 0.0.0.255 192.168.84.0 0.0.0.255
+```
+
+En R2 la ACL se configuró en sentido contrario:
+
+```cisco
+access-list 110 permit ip 192.168.84.0 0.0.0.255 192.168.45.0 0.0.0.255
+```
+
+Esta ACL es la parte que hace que la VPN sea basada en políticas. El tráfico que coincida con esta regla será cifrado por IPSec.
+
+---
+
+### 8. Configuración del crypto map
+
+En R1 se configuró el crypto map hacia R2:
+
+```cisco
+crypto map MAP-IKEV1 10 ipsec-isakmp
+ description VPN-IKEV1-POLICY-HACIA-R2
+ set peer 20.25.8.50
+ set transform-set TS-IKEV1
+ match address 110
+```
+
+En R2 se configuró el crypto map hacia R1:
+
+```cisco
+crypto map MAP-IKEV1 10 ipsec-isakmp
+ description VPN-IKEV1-POLICY-HACIA-R1
+ set peer 20.25.8.46
+ set transform-set TS-IKEV1
+ match address 110
+```
+
+El crypto map une tres elementos importantes:
+
+- El peer remoto.
+- El transform-set IPSec.
+- La ACL de tráfico interesante.
+
+---
+
+### 9. Aplicación del crypto map en la interfaz WAN
+
+En ambos routers, el crypto map se aplicó en la interfaz WAN:
+
+```cisco
+interface GigabitEthernet0/0
+ crypto map MAP-IKEV1
+```
+
+Esta parte es obligatoria. Si el crypto map no se aplica a la interfaz WAN, la VPN no se activa aunque la configuración crypto exista.
+
+---
+
+### 10. Configuración del ISP
+
+El ISP solo tiene direccionamiento en sus interfaces. No tiene configuración de VPN:
+
+```cisco
+interface GigabitEthernet0/0
+ description HACIA-R1-G0/0
+ ip address 20.25.8.45 255.255.255.252
+ no shutdown
+
+interface GigabitEthernet0/1
+ description HACIA-R2-G0/0
+ ip address 20.25.8.49 255.255.255.252
+ no shutdown
+```
+
+El ISP solamente permite conectividad entre R1 y R2.
+
+---
+
+### 11. Configuración de switches
+
+En SW1 se configuró la VLAN 10 para la LAN A:
+
+```cisco
+vlan 10
+ name LAN_A
+```
+
+Los puertos hacia R1 y PC-A se pusieron en modo access dentro de la VLAN 10.
+
+En SW2 se configuró la VLAN 20 para la LAN B:
+
+```cisco
+vlan 20
+ name LAN_B
+```
+
+Los puertos hacia R2 y PC-B se pusieron en modo access dentro de la VLAN 20.
+
+---
+
+### 12. Configuración de PCs
+
+PC-A se configuró con:
+
+```text
+ip 192.168.45.10 255.255.255.0 192.168.45.1
+```
+
+PC-B se configuró con:
+
+```text
+ip 192.168.84.10 255.255.255.0 192.168.84.1
+```
+
+Cada PC usa como gateway la interfaz LAN del router de su lado.
+
+---
+
 ## Explicación de los scripts
 
 ### R1-IKEv1-Policy-Based.cfg
