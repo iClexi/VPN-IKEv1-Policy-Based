@@ -200,8 +200,8 @@ VPN-IKEv1-Policy-Based/
 │   ├── 10_R2_show_crypto_isakmp_sa.png
 │   ├── 11_R1_show_crypto_ipsec_sa.png
 │   ├── 12_R2_show_crypto_ipsec_sa.png
-│   ├── 13_VPN_levantada_R1.png
-│   ├── 14_VPN_levantada_R2.png
+│   ├── 13_R1_vpn_levantada_QM_IDLE.png
+│   ├── 14_R2_vpn_levantada_QM_IDLE.png
 │   ├── 15_R2_show_access_lists.png
 │   ├── 16_R1_show_access_lists.png
 │   ├── 17_PCA_ping_PCB.png
@@ -384,13 +384,13 @@ R2 también muestra tráfico protegido por IPSec.
 
 ### Verificación adicional en R1
 
-![VPN levantada en R1](images/13_VPN_levantada_R1.png)
+![VPN levantada en R1](images/13_R1_vpn_levantada_QM_IDLE.png)
 
 Evidencia adicional del estado operativo de la VPN en R1.
 
 ### Verificación adicional en R2
 
-![VPN levantada en R2](images/14_VPN_levantada_R2.png)
+![VPN levantada en R2](images/14_R2_vpn_levantada_QM_IDLE.png)
 
 Evidencia adicional del estado operativo de la VPN en R2.
 
