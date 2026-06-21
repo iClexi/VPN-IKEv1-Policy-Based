@@ -24,7 +24,7 @@ Se encuentra en docs/Documentacion Tecnica Profesional.pdf
 
 [Ver documentación técnica profesional](docs/Documentacion%20Tecnica%20Profesional.pdf)
 
----
+
 
 ## Vista general de la topología
 
