@@ -15,7 +15,8 @@
 **Video demostrativo:**  
 https://youtu.be/XTnlDhsIsxg?si=LeEmKwnAk4cS_gmM  
 
-**Documentación técnica profesional:**  
+**Documentación técnica profesional:** 
+Se encuentra en docs/Documentacion Tecnica Profesional.pdf
 [Ver documentación técnica profesional](docs/Documentacion%20Tecnica%20Profesional.pdf)
 
 ---
