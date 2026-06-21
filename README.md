@@ -16,7 +16,7 @@
 https://youtu.be/XTnlDhsIsxg?si=LeEmKwnAk4cS_gmM  
 
 **Documentación técnica profesional:** 
-```
+
 
 Se encuentra en docs/Documentacion Tecnica Profesional.pdf
 
