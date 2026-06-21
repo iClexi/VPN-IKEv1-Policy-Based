@@ -41,7 +41,7 @@ IPSec es un conjunto de protocolos de seguridad utilizado para proteger tráfico
 En este laboratorio, IPSec se encarga de proteger el tráfico real entre PC-A y PC-B.
 3.4 ¿Qué es IKEv1?
 IKEv1 es el protocolo que negocia los parámetros de seguridad antes de que IPSec pueda proteger el tráfico. Los routers R1 y R2 usan IKEv1 para acordar cifrado, autenticación, grupo Diffie-Hellman y clave precompartida.
-Una vez la negociación se completa, la VPN aparece en estado `QM_IDLE ACTIVE`.
+Una vez la negociación se completa, la VPN aparece en estado `QM\_IDLE ACTIVE`.
 3.5 ¿Qué significa Policy-Based VPN?
 Una VPN basada en políticas utiliza una ACL para definir qué tráfico será cifrado. En este laboratorio, la ACL 110 indica cuáles redes deben comunicarse por la VPN.
 En R1 se protege el tráfico desde la LAN A hacia la LAN B:
@@ -82,11 +82,11 @@ El direccionamiento utiliza la matrícula 2025-0845 como base para mantener cons
 Aunque la VPN se configura en los routers, los switches permiten separar y organizar cada LAN.
 En SW1 se configuró la VLAN 10 para la LAN A:
 ```text
-VLAN 10 - LAN_A
+VLAN 10 - LAN\_A
 ```
 En SW2 se configuró la VLAN 20 para la LAN B:
 ```text
-VLAN 20 - LAN_B
+VLAN 20 - LAN\_B
 ```
 Estas VLANs permiten que los puertos conectados a las PCs y a los routers pertenezcan al segmento correcto. La VLAN no cifra el tráfico; su función aquí es organizar la red local de cada extremo.
 ---
@@ -123,7 +123,7 @@ scripts/
 La carpeta `docs` contiene la documentación técnica profesional del laboratorio:
 ```text
 docs/
-└── MichaelRobles_2025-0845_Documentacion-Tecnica-Profesional-VPN-IKEv1-Policy-Based_P1.pdf
+└── MichaelRobles\_2025-0845\_Documentacion-Tecnica-Profesional-VPN-IKEv1-Policy-Based\_P1.pdf
 ```
 La carpeta `images` contiene las capturas usadas como evidencias:
 ```text
@@ -169,8 +169,8 @@ Gi0/0 hacia R1 con la IP 20.25.8.45/30.
 Gi0/1 hacia R2 con la IP 20.25.8.49/30.
 El ISP no usa ISAKMP, no usa transform-set y no tiene crypto map.
 9.4 SW1.cfg y SW2.cfg
-SW1 funciona como switch de acceso para la LAN A. En este switch se configura la VLAN 10 llamada `LAN_A`, y los puertos hacia R1 y PC-A se colocan como puertos de acceso en esa VLAN.
-SW2 funciona como switch de acceso para la LAN B. En este switch se configura la VLAN 20 llamada `LAN_B`, y los puertos hacia R2 y PC-B se colocan como puertos de acceso en esa VLAN.
+SW1 funciona como switch de acceso para la LAN A. En este switch se configura la VLAN 10 llamada `LAN\_A`, y los puertos hacia R1 y PC-A se colocan como puertos de acceso en esa VLAN.
+SW2 funciona como switch de acceso para la LAN B. En este switch se configura la VLAN 20 llamada `LAN\_B`, y los puertos hacia R2 y PC-B se colocan como puertos de acceso en esa VLAN.
 9.5 PC-A.cfg y PC-B.cfg
 PC-A se configura con la IP 192.168.45.10/24 y gateway 192.168.45.1.
 PC-B se configura con la IP 192.168.84.10/24 y gateway 192.168.84.1.
@@ -213,10 +213,10 @@ Esta evidencia muestra la configuración crypto en R1. Se observa la política I
 En R2 se observa una configuración equivalente a la de R1, pero apuntando hacia el peer remoto 20.25.8.46, que corresponde a la WAN de R1.
 11.8 Estado IKEv1 en R1
 ![R1 show crypto isakmp sa](images/09_R1_show_crypto_isakmp_sa.png)
-El comando `show crypto isakmp sa` muestra el estado de la negociación IKEv1. El estado `QM_IDLE ACTIVE` confirma que la sesión IKEv1 se estableció correctamente entre R1 y R2.
+El comando `show crypto isakmp sa` muestra el estado de la negociación IKEv1. El estado `QM\_IDLE ACTIVE` confirma que la sesión IKEv1 se estableció correctamente entre R1 y R2.
 11.9 Estado IKEv1 en R2
 ![R2 show crypto isakmp sa](images/10_R2_show_crypto_isakmp_sa.png)
-En R2 también se observa `QM_IDLE ACTIVE`, confirmando que ambos routers reconocen la VPN como activa.
+En R2 también se observa `QM\_IDLE ACTIVE`, confirmando que ambos routers reconocen la VPN como activa.
 11.10 IPSec en R1
 ![R1 show crypto ipsec sa](images/11_R1_show_crypto_ipsec_sa.png)
 Esta evidencia muestra que IPSec está procesando tráfico. Los contadores de paquetes encapsulados, cifrados, desencapsulados y descifrados demuestran que existe tráfico real protegido por la VPN.
@@ -267,7 +267,7 @@ show crypto isakmp sa
 ```
 Debe mostrar:
 ```text
-QM_IDLE ACTIVE
+QM\_IDLE ACTIVE
 ```
 El comando:
 ```cisco
@@ -284,7 +284,7 @@ Esto demuestra que la VPN no solo está configurada, sino que realmente está ci
 ---
 14. Conclusión
 La VPN IPSec IKEv1 Site-to-Site basada en políticas fue configurada y verificada correctamente. R1 y R2 funcionaron como peers VPN, el ISP actuó únicamente como router intermedio y las LANs 192.168.45.0/24 y 192.168.84.0/24 lograron comunicarse de forma segura.
-Las evidencias muestran que IKEv1 alcanzó el estado `QM_IDLE ACTIVE` y que IPSec registró paquetes cifrados y descifrados. Esto confirma que el tráfico entre PC-A y PC-B fue protegido correctamente mediante IPSec.
+Las evidencias muestran que IKEv1 alcanzó el estado `QM\_IDLE ACTIVE` y que IPSec registró paquetes cifrados y descifrados. Esto confirma que el tráfico entre PC-A y PC-B fue protegido correctamente mediante IPSec.
 ---
 15. Entregables incluidos
 Este repositorio contiene:
