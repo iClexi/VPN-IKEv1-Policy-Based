@@ -12,7 +12,7 @@
 
 **Video demostrativo:** https://youtu.be/XTnlDhsIsxg?si=LeEmKwnAk4cS_gmM  
 
-**Documentación técnica profesional:**/docs/Documentacion Tecnica Profesional.pdf
+**Documentación técnica profesional:** docs/Documentacion Tecnica Profesional.pdf
 
 ---
 
