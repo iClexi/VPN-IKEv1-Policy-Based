@@ -221,9 +221,6 @@ VPN-IKEv1-Policy-Based/
 │   ├── R2-IKEv1-Policy-Based.cfg
 │   ├── SW1.cfg
 │   ├── SW2.cfg
-│   └── Verification-Commands.txt
-├── video/
-│   └── Video-Link.txt
 └── README.md
 ```
 
